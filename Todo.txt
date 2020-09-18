@@ -1,5 +1,0 @@
-Min load transition time (to allow time for animations)
-
-Refactor methods and names
-
-Unload all
