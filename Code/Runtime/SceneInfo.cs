@@ -1,11 +1,32 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace Code.Runtime
+namespace SceneManagement.Code.Runtime
 {
-    public struct SceneInfo
+    [CreateAssetMenu(menuName = "Scenes/Info", fileName = "Scene_")]
+    public class SceneInfo : ScriptableObject, ISerializationCallbackReceiver
     {
-        public string Name;
-        public WorkType WorkType;
-        public LoadSceneMode LoadType;
+        [HideInInspector] public string sceneName;
+#if UNITY_EDITOR
+#pragma warning disable 0649
+        [SerializeField] private SceneAsset scene;
+#pragma warning restore 0649
+#endif
+
+        public void OnBeforeSerialize()
+        {
+#if UNITY_EDITOR
+            if (scene == null)
+            {
+                return;
+            }
+
+            sceneName = scene.name;
+#endif
+        }
+
+        public void OnAfterDeserialize()
+        {
+        }
     }
 }
